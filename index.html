@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DocVault Elite 💼</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:linear-gradient(135deg,#020617,#0f172a,#1e3a8a);
+      color:white;
+      display:flex;
+      min-height:100vh;
+    }
+
+    .sidebar{
+      width:240px;
+      background:rgba(0,0,0,0.6);
+      backdrop-filter:blur(10px);
+      padding:20px;
+      box-sizing:border-box;
+    }
+
+    .sidebar h2{
+      color:#38bdf8;
+      margin-top:0;
+    }
+
+    .sidebar button{
+      width:100%;
+      margin:10px 0;
+      padding:12px;
+      background:#1e293b;
+      border:none;
+      color:white;
+      cursor:pointer;
+      border-radius:8px;
+      transition:0.3s;
+    }
+
+    .sidebar button:hover{
+      background:#38bdf8;
+    }
+
+    .main{
+      flex:1;
+      padding:20px;
+      box-sizing:border-box;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      margin-bottom:20px;
+    }
+
+    .brand h1{
+      margin:0;
+      color:#7dd3fc;
+      font-size:28px;
+    }
+
+    .topbar-actions{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+    }
+
+    .seller-btn{
+      padding:10px 18px;
+      background:#38bdf8;
+      border:none;
+      cursor:pointer;
+      border-radius:10px;
+      color:#fff;
+      font-weight:700;
+    }
+
+    .card{
+      background:rgba(255,255,255,0.08);
+      backdrop-filter:blur(10px);
+      padding:15px;
+      margin:10px 0;
+      border-radius:12px;
+      transition:0.3s;
+    }
+
+    .card:hover{
+      transform:scale(1.01);
+    }
+
+    input,select,textarea{
+      padding:10px;
+      margin:5px 5px 10px 0;
+      border-radius:6px;
+      border:none;
+      outline:none;
+      width:100%;
+      box-sizing:border-box;
+    }
+
+    button{
+      padding:10px 14px;
+      background:#38bdf8;
+      border:none;
+      cursor:pointer;
+      border-radius:6px;
+      margin-right:6px;
+      margin-top:6px;
+    }
+
+    a{
+      color:#7dd3fc;
+      text-decoration:none;
+      display:inline-block;
+      margin:6px 0;
+    }
+
+    .section{
+      display:none;
+    }
+
+    .active{
+      display:block;
+    }
+
+    .hero{
+      padding:20px;
+      background:rgba(255,255,255,0.08);
+      border-radius:10px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:10px;
+    }
+
+    .row-3{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:10px;
+    }
+
+    .small{
+      font-size:14px;
+      opacity:0.9;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:4px 10px;
+      border-radius:999px;
+      background:rgba(56,189,248,0.2);
+      margin-left:8px;
+      font-size:12px;
+    }
+
+    @media (max-width: 900px){
+      body{
+        flex-direction:column;
+      }
+
+      .sidebar{
+        width:100%;
+      }
+
+      .topbar{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .row,
+      .row-3{
+        grid-template-columns:1fr;
+      }
+
+      .seller-btn{
+        width:100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h2>🚀 DocVault</h2>
+    <button onclick="show('home')">Home</button>
+    <button onclick="show('market')">Marketplace</button>
+    <button onclick="show('cart')">Cart 🛒 <span id="cartCount">0</span></button>
+    <button onclick="show('consult')">Consult</button>
+    <button onclick="show('admin')">Admin 🔐</button>
+  </div>
+
+  <div class="main">
+
+    <div class="topbar">
+      <div class="brand">
+        <h1>DocVault Elite 💼</h1>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="seller-btn" onclick="show('upload')">Seller</button>
+      </div>
+    </div>
+
+    <div id="home" class="section active">
+      <div class="hero">
+        <h1>DocVault Elite 💼</h1>
+        <p>Buy, Sell Documents & Consultancy globally</p>
+
+        <h3>How it works</h3>
+        <ul>
+          <li>Seller uploads documents with industry/category/tags</li>
+          <li>Buyer searches and filters documents</li>
+          <li>Online consultancy can be added by seller</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="market" class="section">
+      <h2>Marketplace 🔍</h2>
+
+      <div class="row">
+        <div>
+          <input id="search" placeholder="Search title / tags / keywords">
+        </div>
+        <div>
+          <select id="industryFilter">
+            <option value="">All Industries</option>
+            <option value="Oil & Gas">Oil & Gas</option>
+            <option value="Offshore Construction">Offshore Construction</option>
+            <option value="Marine">Marine</option>
+            <option value="Fabrication">Fabrication</option>
+            <option value="Civil">Civil</option>
+            <option value="Mechanical">Mechanical</option>
+            <option value="Electrical">Electrical</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <input id="categoryFilter" placeholder="Category filter like Pipeline Installation">
+        </div>
+        <div>
+          <select id="consultancyFilter">
+            <option value="">All Consultancy</option>
+            <option value="true">Consultancy Available</option>
+          </select>
+        </div>
+      </div>
+
+      <button onclick="loadDocs()">Search</button>
+
+      <div id="docs"></div>
+    </div>
+
+    <div id="upload" class="section">
+      <h2>Seller Upload 📤</h2>
+
+      <input id="title" placeholder="Document Title">
+      <input id="price" placeholder="Price">
+      <textarea id="description" placeholder="Description" rows="3"></textarea>
+
+      <div class="row">
+        <div>
+          <select id="industry">
+            <option value="Oil & Gas">Oil & Gas</option>
+            <option value="Offshore Construction">Offshore Construction</option>
+            <option value="Marine">Marine</option>
+            <option value="Fabrication">Fabrication</option>
+            <option value="Civil">Civil</option>
+            <option value="Mechanical">Mechanical</option>
+            <option value="Electrical">Electrical</option>
+          </select>
+        </div>
+        <div>
+          <input id="category" placeholder="Category / Subcategory or custom">
+        </div>
+      </div>
+
+      <input id="tags" placeholder="Keywords / Tags separated by comma">
+
+      <div class="row">
+        <div>
+          <label class="small">
+            <input type="checkbox" id="consultancyAvailable" style="width:auto;margin-right:8px;">
+            Online Consultancy Available
+          </label>
+        </div>
+        <div>
+          <select id="consultancyMode">
+            <option value="">Consultancy Mode</option>
+            <option value="video">Video</option>
+            <option value="audio">Audio</option>
+            <option value="chat">Chat</option>
+            <option value="onsite">Onsite</option>
+          </select>
+        </div>
+      </div>
+
+      <input id="consultancyRate" placeholder="Consultancy rate per hour">
+      <input type="file" id="file">
+
+      <button onclick="uploadDoc()">Upload</button>
+    </div>
+
+    <div id="cart" class="section">
+      <h2>Cart 🛒</h2>
+      <div id="cartItems"></div>
+      <h3 id="total"></h3>
+      <button onclick="payNow()">Pay with Razorpay 💳</button>
+    </div>
+
+    <div id="consult" class="section">
+      <h2>Consultancy 🎥</h2>
+      <input id="email" placeholder="Your Email">
+      <input type="date" id="date">
+      <textarea id="consultNote" placeholder="What do you need help with?" rows="3"></textarea>
+      <button onclick="bookMeeting()">Book Meeting</button>
+    </div>
+
+    <div id="admin" class="section">
+      <h2>Admin Panel 🔐</h2>
+      <input id="adminUser" placeholder="Username">
+      <input id="adminPass" type="password" placeholder="Password">
+      <button onclick="adminLogin()">Login</button>
+      <canvas id="chart"></canvas>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
