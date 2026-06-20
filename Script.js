@@ -1,4 +1,4 @@
-const API = `${window.location.origin}/api`;
+const API = "https://docvault-backend-byrh.onrender.com/api";
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
